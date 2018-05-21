@@ -38,6 +38,6 @@ def get_release_year(app_id):
     if release_date is not None:
         release_year = release_date.year
     else:
-        release_year = None
+        release_year = -1
 
     return release_year
