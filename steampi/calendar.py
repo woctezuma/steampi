@@ -9,7 +9,10 @@ def get_release_date_as_str(app_id):
     try:
         release_date = app_details[app_id]['data']['release_date']['date']
     except KeyError:
-        release_date = None
+        try:
+            release_date = app_details['release_date']['date']
+        except KeyError:
+            release_date = None
 
     return release_date
 
