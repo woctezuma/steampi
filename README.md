@@ -71,5 +71,5 @@ release_date = steampi.calendar.get_release_date_as_datetime(app_id)
 import steampi.api
 
 app_id = '440'
-(app_details, is_success) = steampi.api.load_app_details(app_id)
+(app_details, is_success, status_code) = steampi.api.load_app_details(app_id)
 ```

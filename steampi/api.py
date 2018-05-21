@@ -26,7 +26,7 @@ def download_app_details(app_id):
         except KeyError:
             success_flag = False
 
-    return downloaded_app_details, success_flag
+    return downloaded_app_details, success_flag, status_code
 
 
 def get_appdetails_filename(app_id):
@@ -49,9 +49,10 @@ def load_app_details(app_id):
     try:
         loaded_app_details = steampi.json_utils.load_json_data(json_filename)
         success_flag = True
+        status_code = None
     except FileNotFoundError:
-        (loaded_app_details, success_flag) = download_app_details(app_id)
+        (loaded_app_details, success_flag, status_code) = download_app_details(app_id)
         if success_flag:
             steampi.json_utils.save_json_data(json_filename, loaded_app_details)
 
-    return loaded_app_details, success_flag
+    return loaded_app_details, success_flag, status_code
