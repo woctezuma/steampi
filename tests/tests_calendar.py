@@ -8,7 +8,7 @@ class TestCalendarMethods(unittest.TestCase):
     def test_get_release_date_as_str(self):
         app_id = '440'
         release_date = steampi.calendar.get_release_date_as_str(app_id)
-        self.assertEqual(release_date, '10 Oct, 2007')
+        self.assertTrue(release_date == '10 Oct, 2007' or release_date == 'Oct 10, 2007')
 
     def test_get_release_date_as_datetime(self):
         app_id = '440'
