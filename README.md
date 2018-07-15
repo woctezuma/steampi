@@ -65,7 +65,7 @@ app_id = '440'
 release_date = steampi.calendar.get_release_date_as_datetime(app_id)
 ```
 
-### Download app details for of a Steam game, given its appID
+### Download app details of a Steam game, given its appID
 
 ```python
 import steampi.api
