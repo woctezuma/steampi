@@ -11,7 +11,7 @@ class TestJsonUtilsMethods(unittest.TestCase):
     def test_download_json_data(self):
         app_id = '440'
         url = 'http://store.steampowered.com/api/appdetails?appids=' + str(app_id)
-        data, status_code = steampi.json_utils.download_json_data(url, verbose=True)
+        _, status_code = steampi.json_utils.download_json_data(url, verbose=True)
         self.assertTrue(status_code == 200)
 
     def test_save_json_data(self):
