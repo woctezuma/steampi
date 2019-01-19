@@ -11,7 +11,7 @@ class TestApiMethods(unittest.TestCase):
 
     def test_download_app_details(self):
         app_id = '440'
-        (app_details, is_success, status_code) = steampi.api.download_app_details(app_id)
+        (_, is_success, _) = steampi.api.download_app_details(app_id)
         self.assertTrue(is_success)
 
     def test_get_appdetails_filename(self):
@@ -21,7 +21,7 @@ class TestApiMethods(unittest.TestCase):
 
     def test_load_app_details(self):
         app_id = '440'
-        (app_details, is_success, status_code) = steampi.api.load_app_details(app_id)
+        (_, is_success, _) = steampi.api.load_app_details(app_id)
         self.assertTrue(is_success)
 
 
