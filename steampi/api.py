@@ -4,7 +4,7 @@ import steampi.json_utils
 
 
 def get_appdetails_url(app_id):
-    url = 'http://store.steampowered.com/api/appdetails?appids=' + str(app_id)
+    url = 'https://store.steampowered.com/api/appdetails?appids=' + str(app_id)
     return url
 
 
