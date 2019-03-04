@@ -60,7 +60,7 @@ release_year = steampi.calendar.get_release_year(app_id)
 ### Find the most similar game names to an input text
 
 ```python
-import steampi.calendar
+import steampi.text_distances
 import steamspypi
 
 steamspy_database = steamspypi.load()
