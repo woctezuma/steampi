@@ -30,6 +30,33 @@ pip install steampi
 
 ## Usage
 
+### Download app details of a Steam game, given its appID
+
+```python
+import steampi.api
+
+app_id = '440'
+(app_details, is_success, status_code) = steampi.api.load_app_details(app_id)
+```
+
+### Retrieve the release date of a Steam game, given its appID
+
+```python
+import steampi.calendar
+
+app_id = '440'
+release_date = steampi.calendar.get_release_date_as_datetime(app_id)
+```
+
+### Retrieve the release year of a Steam game, given its appID
+
+```python
+import steampi.calendar
+
+app_id = '440'
+release_year = steampi.calendar.get_release_year(app_id)
+```
+
 ### Find the most similar game names to an input text
 
 ```python
@@ -45,31 +72,4 @@ num_games_to_print = 5
 for i in range(num_games_to_print):
     similar_game_name = steamspy_database[sorted_app_ids[i]] 
     print(similar_game_name)
-```
-
-### Retrieve the release year of a Steam game, given its appID
-
-```python
-import steampi.calendar
-
-app_id = '440'
-release_year = steampi.calendar.get_release_year(app_id)
-```
-
-### Retrieve the release date of a Steam game, given its appID
-
-```python
-import steampi.calendar
-
-app_id = '440'
-release_date = steampi.calendar.get_release_date_as_datetime(app_id)
-```
-
-### Download app details of a Steam game, given its appID
-
-```python
-import steampi.api
-
-app_id = '440'
-(app_details, is_success, status_code) = steampi.api.load_app_details(app_id)
 ```
