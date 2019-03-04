@@ -60,16 +60,17 @@ release_year = steampi.calendar.get_release_year(app_id)
 ### Find the most similar game names to an input text
 
 ```python
-import steamspypi
 import steampi.calendar
+import steamspypi
 
 steamspy_database = steamspypi.load()
 
 input_text = 'Crash Bandicoot'
-sorted_app_ids, text_distances = steampi.text_distances.find_most_similar_game_names(input_text, steamspy_database)
+sorted_app_ids, text_distances = steampi.text_distances.find_most_similar_game_names(input_text,
+                                                                                     steamspy_database)
 
 num_games_to_print = 5
 for i in range(num_games_to_print):
-    similar_game_name = steamspy_database[sorted_app_ids[i]] 
+    similar_game_name = steamspy_database[sorted_app_ids[i]]
     print(similar_game_name)
 ```
