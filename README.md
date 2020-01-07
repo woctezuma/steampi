@@ -59,6 +59,10 @@ release_year = steampi.calendar.get_release_year(app_id)
 
 ### Find the most similar game names to an input text
 
+#### Using the Levenshtein distance
+
+The Levenshtein distance is an edit distance, which is useful to fix typos for instance.
+
 ```python
 import steampi.text_distances
 import steamspypi
@@ -74,3 +78,38 @@ for i in range(num_games_to_print):
     similar_game_name = steamspy_database[sorted_app_ids[i]]
     print(similar_game_name)
 ```
+
+#### Using the longest contiguous matching subsequence
+
+The code snippet below makes use of the longest contiguous matching subsequence.
+This leads to different results compared to Levenshtein distance, which you might find more suitable for your needs.
+
+However:
+-   the code is slower than with Levenshtein distance: for instance, the run-time is 140% longer for the unit test,
+-   the text distances are bound to [0,1], so they do not have the same value range as for Levenshtein distance,
+-   the text distances do not have the same meaning as for Levenshtein distance, which was the minimal number of edits,
+-   the results do not contain all the text distances, but only these with less than 0.4 distance (i.e. 0.6 similarity).
+
+```python
+import steampi.text_distances
+import steamspypi
+
+steamspy_database = steamspypi.load()
+
+num_games_to_print = 5
+
+input_text = 'Crash Bandicoot'
+sorted_app_ids, text_distances = steampi.text_distances.find_most_similar_game_names(input_text,
+                                                                                     steamspy_database,
+                                                                                     use_levenshtein_distance=False,
+                                                                                     n=num_games_to_print)
+
+for i in range(len(sorted_app_ids)):
+    similar_game_name = steamspy_database[sorted_app_ids[i]]
+    print(similar_game_name)
+```
+
+## References
+
+-   [Levenshtein module](https://github.com/ztane/python-Levenshtein) for the Levenshtein distance,
+-   [Difflib module](https://docs.python.org/3/library/difflib.html) for the longest contiguous matching subsequence.
