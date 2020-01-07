@@ -1,6 +1,36 @@
 import difflib
+import heapq
 
 import steamspypi
+
+
+def compute_all_game_name_distances_with_diff_lib(input_game_name,
+                                                  steamspy_database=None,
+                                                  n=3,
+                                                  cutoff=0.6,
+                                                  ):
+    lower_case_input = input_game_name.lower()
+
+    lower_case_game_name_dictionary = build_lower_case_game_name_dictionary(steamspy_database)
+
+    lower_case_references = lower_case_game_name_dictionary.keys()
+
+    close_matches_and_similarity_ratios = get_close_matches_and_similarity_ratios(word=lower_case_input,
+                                                                                  possibilities=lower_case_references,
+                                                                                  n=n,
+                                                                                  cutoff=cutoff)
+
+    text_distances = dict()
+
+    for (lower_case_text, similarity_ratio) in close_matches_and_similarity_ratios:
+        app_id = lower_case_game_name_dictionary[lower_case_text]
+
+        # Reference: https://docs.python.org/3/library/difflib.html#difflib.SequenceMatcher.ratio
+        textual_distance = 1 - similarity_ratio
+
+        text_distances[app_id] = textual_distance
+
+    return text_distances
 
 
 def build_lower_case_game_name_dictionary(steamspy_database=None):
@@ -21,102 +51,55 @@ def build_lower_case_game_name_dictionary(steamspy_database=None):
     return lower_case_game_name_dictionary
 
 
-def compute_all_game_name_distances_with_diff_lib(input_game_name,
-                                                  steamspy_database=None,
-                                                  reference_texts=None,
-                                                  computation_type=None):
-    if steamspy_database is None:
-        steamspy_database = steamspypi.load()
+def get_close_matches_and_similarity_ratios(word, possibilities, n=3, cutoff=0.6):
+    """Use SequenceMatcher to return list of the best "good enough" matches, along with the similarity ratios.
 
-    lower_case_game_name_dictionary = build_lower_case_game_name_dictionary(steamspy_database)
+    Code inspired from:
+        https://docs.python.org/3/library/difflib.html#difflib.get_close_matches
 
-    if reference_texts is None:
-        reference_texts = list(lower_case_game_name_dictionary.keys())
+    word is a sequence for which close matches are desired (typically a
+    string).
 
-        lower_case_reference_texts = reference_texts
-    else:
-        lower_case_reference_texts = [text.lower() for text in reference_texts]
+    possibilities is a list of sequences against which to match word
+    (typically a list of strings).
 
-    if computation_type is None:
-        computation_type = 'exact'
+    Optional arg n (default 3) is the maximum number of close matches to
+    return.  n must be > 0.
 
-    lower_case_input = input_game_name.lower()
+    Optional arg cutoff (default 0.6) is a float in [0, 1].  Possibilities
+    that don't score at least that similar to word are ignored.
 
-    text_distances = dict()
+    The best (no more than n) matches among the possibilities are returned
+    in a list, sorted by similarity score, most similar first.
 
-    for lower_case_text in lower_case_reference_texts:
-        app_id = lower_case_game_name_dictionary[lower_case_text]
+    >>> get_close_matches_and_similarity_ratios("appel", ["ape", "apple", "peach", "puppy"])
+    [('apple', 0.8), ('ape', 0.75)]
+    >>> import keyword as _keyword
+    >>> get_close_matches_and_similarity_ratios("wheel", _keyword.kwlist)
+    [('while', 0.6)]
+    >>> get_close_matches_and_similarity_ratios("Apple", _keyword.kwlist)
+    []
+    >>> get_close_matches_and_similarity_ratios("accept", _keyword.kwlist)
+    [('except', 0.6666666666666666)]
+    """
 
-        s = difflib.SequenceMatcher(None, lower_case_input, lower_case_text)
+    if not n > 0:
+        raise ValueError("n must be > 0: %r" % (n,))
+    if not 0.0 <= cutoff <= 1.0:
+        raise ValueError("cutoff must be in [0.0, 1.0]: %r" % (cutoff,))
+    result = []
+    s = difflib.SequenceMatcher()
+    s.set_seq2(word)
+    for x in possibilities:
+        s.set_seq1(x)
+        if s.real_quick_ratio() >= cutoff and \
+                s.quick_ratio() >= cutoff and \
+                s.ratio() >= cutoff:
+            result.append((s.ratio(), x))
 
-        # Reference: https://docs.python.org/3.8/library/difflib.html#difflib.SequenceMatcher.ratio
-        if computation_type == 'exact':
-            textual_similarity_ratio = s.ratio()
-        elif computation_type == 'quick':
-            textual_similarity_ratio = s.quick_ratio()
-        else:
-            textual_similarity_ratio = s.real_quick_ratio()
+    # Move the best scorers to head of list
+    result = heapq.nlargest(n, result)
+    # Swap scorers and scores for the best n matches
+    close_matches_and_similarity_ratios = [(x, score) for score, x in result]
 
-        textual_distance = 1 - textual_similarity_ratio
-
-        text_distances[app_id] = textual_distance
-
-    return text_distances
-
-
-def find_most_similar_game_names_with_diff_lib(input_game_name,
-                                               steamspy_database=None,
-                                               computation_type=None,
-                                               trim_possibilities=None,
-                                               n=None,
-                                               cutoff=None):
-    if computation_type is None:
-        # Either 'exact', 'quick', or 'real_quick'.
-        computation_type = 'exact'
-
-    if trim_possibilities is None:
-        # NB: If computation_type is set to 'quick' or 'real_quick' ratios, then you MUST toggle ON the trimming of
-        #     possibilities if you want to get RELIABLE results.
-        #
-        # NB: If computation_type is set to 'exact' ratio, then you should get identical results but a lot FASTER
-        #     by toggling ON the trimming of possibilities with get_close_matches().
-        #
-        #     Actually, if trimming is set to True, then there is no computational downside to using the 'exact' ratio.
-        trim_possibilities = True
-
-    if not trim_possibilities:
-        print('[Warning] You rely on {} ratios.'.format(computation_type), end=' ')
-
-        if computation_type != 'exact':
-            print('Results will not be reliable if trim_possibilities is not True.')
-        else:
-            print('Computation time will be slow (for identical results) if trim_possibilities is not True.')
-
-    if n is None:
-        # Only relevant if computation type is not equal to 'exact'
-        n = 5
-
-    if cutoff is None:
-        # Only relevant if computation type is not equal to 'exact'
-        cutoff = 0.6
-
-    lower_case_input = input_game_name.lower()
-    lower_case_game_name_dictionary = build_lower_case_game_name_dictionary(steamspy_database)
-
-    if trim_possibilities:
-        # Reference: https://docs.python.org/3.8/library/difflib.html#difflib.get_close_matches
-        sorted_texts = difflib.get_close_matches(word=lower_case_input,
-                                                 possibilities=lower_case_game_name_dictionary.keys(),
-                                                 n=n,
-                                                 cutoff=cutoff)
-    else:
-        sorted_texts = list(lower_case_game_name_dictionary.keys())
-
-    text_distances = compute_all_game_name_distances_with_diff_lib(input_game_name,
-                                                                   steamspy_database=steamspy_database,
-                                                                   reference_texts=sorted_texts,
-                                                                   computation_type=computation_type)
-
-    sorted_app_ids = sorted(text_distances.keys(), key=lambda app_id: text_distances[app_id])
-
-    return sorted_app_ids, text_distances
+    return close_matches_and_similarity_ratios
