@@ -90,6 +90,8 @@ However:
 -   the text distances do not have the same meaning as for Levenshtein distance, which was the minimal number of edits,
 -   the results do not contain all the text distances, but only these with less than 0.4 distance (i.e. 0.6 similarity).
 
+Junk characters can be specified with `junk_str`.
+
 ```python
 import steampi.text_distances
 import steamspypi
@@ -97,12 +99,15 @@ import steamspypi
 steamspy_database = steamspypi.load()
 
 num_games_to_print = 5
+junk_str=''
 
 input_text = 'Crash Bandicoot'
 sorted_app_ids, text_distances = steampi.text_distances.find_most_similar_game_names(input_text,
                                                                                      steamspy_database,
                                                                                      use_levenshtein_distance=False,
-                                                                                     n=num_games_to_print)
+                                                                                     n=num_games_to_print,
+                                                                                     junk_str=junk_str,
+                                                                                     )
 
 for i in range(len(sorted_app_ids)):
     similar_game_name = steamspy_database[sorted_app_ids[i]]
