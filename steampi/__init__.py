@@ -1,3 +1,4 @@
+from steampi.utils import *
 from .api import *
 from .calendar import *
 from .difflib_utils import *
