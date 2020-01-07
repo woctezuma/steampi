@@ -6,6 +6,7 @@ def compute_all_game_name_distances(input_game_name,
                                     steamspy_database=None,
                                     use_levenshtein_distance=True,
                                     n=3,
+                                    junk_str='',
                                     cutoff=0.6):
     if use_levenshtein_distance:
         # Levenshtein distance
@@ -17,6 +18,7 @@ def compute_all_game_name_distances(input_game_name,
         text_distances = compute_all_game_name_distances_with_diff_lib(input_game_name,
                                                                        steamspy_database,
                                                                        n=n,
+                                                                       junk_str=junk_str,
                                                                        cutoff=cutoff)
 
     return text_distances
@@ -26,11 +28,13 @@ def find_most_similar_game_names(input_game_name,
                                  steamspy_database=None,
                                  use_levenshtein_distance=True,
                                  n=3,
+                                 junk_str='',
                                  cutoff=0.6):
     text_distances = compute_all_game_name_distances(input_game_name,
                                                      steamspy_database=steamspy_database,
                                                      use_levenshtein_distance=use_levenshtein_distance,
                                                      n=n,
+                                                     junk_str=junk_str,
                                                      cutoff=cutoff,
                                                      )
 

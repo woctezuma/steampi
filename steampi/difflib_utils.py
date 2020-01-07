@@ -7,6 +7,7 @@ import steamspypi
 def compute_all_game_name_distances_with_diff_lib(input_game_name,
                                                   steamspy_database=None,
                                                   n=3,
+                                                  junk_str='',
                                                   cutoff=0.6,
                                                   ):
     lower_case_input = input_game_name.lower()
@@ -18,6 +19,7 @@ def compute_all_game_name_distances_with_diff_lib(input_game_name,
     close_matches_and_similarity_ratios = get_close_matches_and_similarity_ratios(word=lower_case_input,
                                                                                   possibilities=lower_case_references,
                                                                                   n=n,
+                                                                                  junk_str=junk_str,
                                                                                   cutoff=cutoff)
 
     text_distances = dict()
@@ -51,7 +53,7 @@ def build_lower_case_game_name_dictionary(steamspy_database=None):
     return lower_case_game_name_dictionary
 
 
-def get_close_matches_and_similarity_ratios(word, possibilities, n=3, cutoff=0.6):
+def get_close_matches_and_similarity_ratios(word, possibilities, n=3, cutoff=0.6, junk_str=''):
     """Use SequenceMatcher to return list of the best "good enough" matches, along with the similarity ratios.
 
     Code inspired from:
@@ -68,6 +70,9 @@ def get_close_matches_and_similarity_ratios(word, possibilities, n=3, cutoff=0.6
 
     Optional arg cutoff (default 0.6) is a float in [0, 1].  Possibilities
     that don't score at least that similar to word are ignored.
+
+    Optional arg junk_str (default '') is a string containing all the junk
+    characters, which are to be omitted.
 
     The best (no more than n) matches among the possibilities are returned
     in a list, sorted by similarity score, most similar first.
@@ -88,7 +93,10 @@ def get_close_matches_and_similarity_ratios(word, possibilities, n=3, cutoff=0.6
     if not 0.0 <= cutoff <= 1.0:
         raise ValueError("cutoff must be in [0.0, 1.0]: %r" % (cutoff,))
     result = []
-    s = difflib.SequenceMatcher()
+    if len(junk_str) > 0:
+        s = difflib.SequenceMatcher(isjunk=lambda x: x in junk_str)
+    else:
+        s = difflib.SequenceMatcher()
     s.set_seq2(word)
     for x in possibilities:
         s.set_seq1(x)
