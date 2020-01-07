@@ -95,6 +95,81 @@ class TestDifflibUtilsMethods(unittest.TestCase):
 
         self.assertGreater(len(sorted_app_ids), 0)
 
+    def test_find_most_similar_game_names_with_diff_lib_real_quick_ratio_and_trimming(self):
+        steamspy_database = steamspypi.load()
+
+        num_games_to_print = 5
+
+        input_text = 'Crash Bandicoot'
+        sorted_app_ids, text_distances = steampi.difflib_utils.find_most_similar_game_names_with_diff_lib(input_text,
+                                                                                                          steamspy_database,
+                                                                                                          n=num_games_to_print,
+                                                                                                          computation_type='real_quick',
+                                                                                                          trim_possibilities=True)
+
+        for i in range(num_games_to_print):
+            try:
+                app_id = sorted_app_ids[i]
+            except IndexError:
+                continue
+
+            similar_game_name = steamspy_database[app_id]
+            textual_distance = text_distances[app_id]
+
+            print('{}) distance = {} ; {}'.format(i + 1,
+                                                  textual_distance,
+                                                  similar_game_name))
+
+        self.assertGreater(len(sorted_app_ids), 0)
+
+    def test_find_most_similar_game_names_with_diff_lib_quick_ratio_and_trimming(self):
+        steamspy_database = steamspypi.load()
+
+        num_games_to_print = 5
+
+        input_text = 'Crash Bandicoot'
+        sorted_app_ids, text_distances = steampi.difflib_utils.find_most_similar_game_names_with_diff_lib(input_text,
+                                                                                                          steamspy_database,
+                                                                                                          n=num_games_to_print,
+                                                                                                          computation_type='quick',
+                                                                                                          trim_possibilities=True)
+
+        for i in range(num_games_to_print):
+            try:
+                app_id = sorted_app_ids[i]
+            except IndexError:
+                continue
+
+            similar_game_name = steamspy_database[app_id]
+            textual_distance = text_distances[app_id]
+
+            print('{}) distance = {} ; {}'.format(i + 1,
+                                                  textual_distance,
+                                                  similar_game_name))
+
+        self.assertGreater(len(sorted_app_ids), 0)
+
+    def test_find_most_similar_game_names_with_diff_lib_exact_ratio_and_trimming(self):
+        steamspy_database = steamspypi.load()
+
+        input_text = 'Crash Bandicoot'
+        sorted_app_ids, text_distances = steampi.difflib_utils.find_most_similar_game_names_with_diff_lib(input_text,
+                                                                                                          steamspy_database,
+                                                                                                          computation_type='exact',
+                                                                                                          trim_possibilities=True)
+
+        num_games_to_print = 5
+        for i in range(num_games_to_print):
+            app_id = sorted_app_ids[i]
+            similar_game_name = steamspy_database[app_id]
+            textual_distance = text_distances[app_id]
+
+            print('{}) distance = {} ; {}'.format(i + 1,
+                                                  textual_distance,
+                                                  similar_game_name))
+
+        self.assertGreater(len(sorted_app_ids), 0)
+
 
 if __name__ == '__main__':
     unittest.main()
