@@ -75,9 +75,19 @@ def find_most_similar_game_names_with_diff_lib(input_game_name,
         computation_type = 'exact'
 
     if trim_possibilities is None:
-        # Caveat: do not solely rely on "quick" or "real_quick" ratios! If you don't want to use the slow 'exact' ratio,
-        #         then you will get more reliable results if you first trim the possibilities with get_close_matches()!
-        trim_possibilities = bool(computation_type != 'exact')
+        # NB: If computation_type is set to 'quick' or 'real_quick' ratios, then you MUST toggle ON the trimming of
+        #     possibilities if you want to get RELIABLE results.
+        #
+        # NB: If computation_type is set to 'exact' ratio, then you should get identical results but a lot FASTER
+        #     by toggling ON the trimming of possibilities with get_close_matches().
+        #
+        #     Actually, if trimming is set to True, then there is no computational downside to using the 'exact' ratio.
+        trim_possibilities = True
+
+    if computation_type != 'exact' and not trim_possibilities:
+        print('[Warning] You rely on {} ratios. Results will not be reliable if trim_possibilities is not True.'.format(
+            computation_type
+        ))
 
     if n is None:
         # Only relevant if computation type is not equal to 'exact'
