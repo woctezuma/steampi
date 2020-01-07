@@ -84,10 +84,13 @@ def find_most_similar_game_names_with_diff_lib(input_game_name,
         #     Actually, if trimming is set to True, then there is no computational downside to using the 'exact' ratio.
         trim_possibilities = True
 
-    if computation_type != 'exact' and not trim_possibilities:
-        print('[Warning] You rely on {} ratios. Results will not be reliable if trim_possibilities is not True.'.format(
-            computation_type
-        ))
+    if not trim_possibilities:
+        print('[Warning] You rely on {} ratios.'.format(computation_type), end=' ')
+
+        if computation_type != 'exact':
+            print('Results will not be reliable if trim_possibilities is not True.')
+        else:
+            print('Computation time will be slow (for identical results) if trim_possibilities is not True.')
 
     if n is None:
         # Only relevant if computation type is not equal to 'exact'
