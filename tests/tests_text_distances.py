@@ -12,16 +12,44 @@ class TestTextDistancesMethods(unittest.TestCase):
 
         self.assertGreater(len(text_distances), 0)
 
-    def test_find_most_similar_game_names(self):
+    def test_find_most_similar_game_names_with_levenshtein_distance(self):
         steamspy_database = steamspypi.load()
 
         input_text = 'Crash Bandicoot'
-        sorted_app_ids, _ = steampi.text_distances.find_most_similar_game_names(input_text, steamspy_database)
+        sorted_app_ids, text_distances = steampi.text_distances.find_most_similar_game_names_with_levenshtein_distance(
+            input_text,
+            steamspy_database)
 
         num_games_to_print = 5
         for i in range(num_games_to_print):
-            similar_game_name = steamspy_database[sorted_app_ids[i]]
-            print(similar_game_name)
+            app_id = sorted_app_ids[i]
+            similar_game_name = steamspy_database[app_id]
+            textual_distance = text_distances[app_id]
+
+            print('{}) distance = {} ; {}'.format(i + 1,
+                                                  textual_distance,
+                                                  similar_game_name))
+
+        self.assertGreater(len(sorted_app_ids), 0)
+
+    def test_find_most_similar_game_names_with_diff_lib(self):
+        steamspy_database = steamspypi.load()
+
+        input_text = 'Crash Bandicoot'
+        sorted_app_ids, text_distances = steampi.text_distances.find_most_similar_game_names(input_text,
+                                                                                             steamspy_database,
+                                                                                             distance_type='difflib',
+                                                                                             computation_type='exact')
+
+        num_games_to_print = 5
+        for i in range(num_games_to_print):
+            app_id = sorted_app_ids[i]
+            similar_game_name = steamspy_database[app_id]
+            textual_distance = text_distances[app_id]
+
+            print('{}) distance = {} ; {}'.format(i + 1,
+                                                  textual_distance,
+                                                  similar_game_name))
 
         self.assertGreater(len(sorted_app_ids), 0)
 
