@@ -9,6 +9,7 @@ def compute_all_game_name_distances_with_diff_lib(input_game_name,
                                                   n=3,
                                                   junk_str='',
                                                   cutoff=0.6,
+                                                  verbose=False,
                                                   ):
     lower_case_input = input_game_name.lower()
 
@@ -31,6 +32,10 @@ def compute_all_game_name_distances_with_diff_lib(input_game_name,
         textual_distance = 1 - similarity_ratio
 
         text_distances[app_id] = textual_distance
+
+    if verbose:
+        print('\nSimilarity ratios: {}'.format(close_matches_and_similarity_ratios))
+        print('Text distances: {}'.format(text_distances))
 
     return text_distances
 
