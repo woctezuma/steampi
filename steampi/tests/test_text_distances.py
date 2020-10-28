@@ -2,13 +2,13 @@ import unittest
 
 import steamspypi
 
-import steampi.text_distances
+import steampi
 
 
 class TestTextDistancesMethods(unittest.TestCase):
     def test_compute_all_game_name_distances(self):
         input_text = 'Crash Bandicoot'
-        text_distances = steampi.text_distances.compute_all_game_name_distances(input_text)
+        text_distances = steampi.compute_all_game_name_distances(input_text)
 
         self.assertGreater(len(text_distances), 0)
 
@@ -16,7 +16,7 @@ class TestTextDistancesMethods(unittest.TestCase):
         steamspy_database = steamspypi.load()
 
         input_text = 'Crash Bandicoot'
-        sorted_app_ids, text_distances = steampi.text_distances.find_most_similar_game_names(input_text,
+        sorted_app_ids, text_distances = steampi.find_most_similar_game_names(input_text,
                                                                                              steamspy_database,
                                                                                              use_levenshtein_distance=True,
                                                                                              )
@@ -43,7 +43,7 @@ class TestTextDistancesMethods(unittest.TestCase):
         num_games_to_print = 10
 
         input_text = 'Crash Bandicoot'
-        sorted_app_ids, text_distances = steampi.text_distances.find_most_similar_game_names(input_text,
+        sorted_app_ids, text_distances = steampi.find_most_similar_game_names(input_text,
                                                                                              steamspy_database,
                                                                                              use_levenshtein_distance=False,
                                                                                              n=num_games_to_print)
