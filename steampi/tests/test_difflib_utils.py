@@ -11,7 +11,10 @@ class TestDifflibUtilsMethods(unittest.TestCase):
 
     def test_compute_all_game_name_distances_with_diff_lib(self):
         input_text = 'Crash Bandicoot'
-        text_distances = steampi.compute_all_game_name_distances_with_diff_lib(input_text)
+        cutoff = 0.5
+        text_distances = steampi.compute_all_game_name_distances_with_diff_lib(input_text,
+                                                                               cutoff=cutoff,
+                                                                               verbose=True)
 
         self.assertGreater(len(text_distances), 0)
 

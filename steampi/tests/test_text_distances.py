@@ -43,10 +43,13 @@ class TestTextDistancesMethods(unittest.TestCase):
         num_games_to_print = 10
 
         input_text = 'Crash Bandicoot'
+        cutoff = 0.5
         sorted_app_ids, text_distances = steampi.find_most_similar_game_names(input_text,
                                                                               steamspy_database,
                                                                               use_levenshtein_distance=False,
-                                                                              n=num_games_to_print)
+                                                                              n=num_games_to_print,
+                                                                              cutoff=cutoff,
+                                                                              verbose=True)
 
         print('Using the longest contiguous matching subsequence for input {}:'.format(input_text))
         for i in range(num_games_to_print):
