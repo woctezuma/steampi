@@ -1,22 +1,11 @@
 # SteamPI: a simple API for Steam
 
-[![PyPI status][PyPI image]][PyPI] [![Build status][Build image]][Build] [![Updates][Dependency image]][PyUp] [![Python 3][Python3 image]][PyUp] [![Code coverage][Coveralls image]][Coveralls] [![Code coverage BIS][Codecov image]][Codecov]
-
-  [PyPI]: https://pypi.python.org/pypi/steampi
-  [PyPI image]: https://badge.fury.io/py/steampi.svg
-
-  [Build]: https://travis-ci.org/woctezuma/steampi
-  [Build image]: https://travis-ci.org/woctezuma/steampi.svg?branch=master
-
-  [PyUp]: https://pyup.io/repos/github/woctezuma/steampi/
-  [Dependency image]: https://pyup.io/repos/github/woctezuma/steampi/shield.svg
-  [Python3 image]: https://pyup.io/repos/github/woctezuma/steampi/python-3-shield.svg
-
-  [Coveralls]: https://coveralls.io/github/woctezuma/steampi?branch=master
-  [Coveralls image]: https://coveralls.io/repos/github/woctezuma/steampi/badge.svg?branch=master
-
-  [Codecov]: https://codecov.io/gh/woctezuma/steampi
-  [Codecov image]: https://codecov.io/gh/woctezuma/steampi/branch/master/graph/badge.svg
+[![PyPI status][pypi-image]][pypi]
+[![Build status][build-image]][build]
+[![Updates][dependency-image]][pyup]
+[![Python 3][python3-image]][pyup]
+[![Code coverage][codecov-image]][codecov]
+[![Code Quality][codacy-image]][codacy]
 
 This repository contains Python code to download some data through Steam API.
 
@@ -118,3 +107,22 @@ for i in range(len(sorted_app_ids)):
 
 -   [Levenshtein module](https://github.com/ztane/python-Levenshtein) for the Levenshtein distance,
 -   [Difflib module](https://docs.python.org/3/library/difflib.html) for the longest contiguous matching subsequence.
+
+<!-- Definitions for badges -->
+
+[pypi]: <https://pypi.python.org/pypi/steampi>
+[pypi-image]: <https://badge.fury.io/py/steampi.svg>
+
+[build]: <https://github.com/woctezuma/steampi/actions>
+[build-image]: <https://github.com/woctezuma/steampi/workflows/Python package/badge.svg?branch=master>
+[publish-image]: <https://github.com/woctezuma/steampi/workflows/Upload Python Package/badge.svg?branch=master>
+
+[pyup]: <https://pyup.io/repos/github/woctezuma/steampi/>
+[dependency-image]: <https://pyup.io/repos/github/woctezuma/steampi/shield.svg>
+[python3-image]: <https://pyup.io/repos/github/woctezuma/steampi/python-3-shield.svg>
+
+[codecov]: <https://codecov.io/gh/woctezuma/steampi>
+[codecov-image]: <https://codecov.io/gh/woctezuma/steampi/branch/master/graph/badge.svg>
+
+[codacy]: <https://www.codacy.com/app/woctezuma/steampi>
+[codacy-image]: <https://api.codacy.com/project/badge/Grade/b7c2295b2f69449dad7b553b2295c844>
