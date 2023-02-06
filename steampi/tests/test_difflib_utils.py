@@ -9,7 +9,7 @@ class TestDifflibUtilsMethods(unittest.TestCase):
             steampi.build_lower_case_game_name_dictionary()
         )
 
-        self.assertGreater(len(lower_case_game_name_dictionary), 0)
+        assert len(lower_case_game_name_dictionary) > 0
 
     def test_compute_all_game_name_distances_with_diff_lib(self):
         input_text = 'Crash Bandicoot'
@@ -20,7 +20,7 @@ class TestDifflibUtilsMethods(unittest.TestCase):
             verbose=True,
         )
 
-        self.assertGreater(len(text_distances), 0)
+        assert len(text_distances) > 0
 
 
 if __name__ == '__main__':

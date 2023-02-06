@@ -10,7 +10,7 @@ class TestUtilsMethods(unittest.TestCase):
             steampi.build_lower_case_game_name_dictionary()
         )
 
-        self.assertGreater(len(lower_case_game_name_dictionary), 0)
+        assert len(lower_case_game_name_dictionary) > 0
 
     def test_remove_characters_from_str(self):
         input_str = 'Hello, World!'
@@ -21,7 +21,7 @@ class TestUtilsMethods(unittest.TestCase):
             characters_to_remove=characters_to_remove,
         )
 
-        self.assertEqual(edited_str, 'Hello World')
+        assert edited_str == 'Hello World'
 
 
 if __name__ == '__main__':

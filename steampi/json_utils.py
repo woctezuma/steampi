@@ -36,7 +36,7 @@ def save_json_data(json_filename, json_data):
 
 
 def load_json_data(json_filename):
-    with open(json_filename, 'r', encoding='utf8') as f:
+    with open(json_filename, encoding='utf8') as f:
         data = json.load(f)
 
     return data

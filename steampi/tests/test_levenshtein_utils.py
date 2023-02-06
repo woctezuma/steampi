@@ -10,7 +10,7 @@ class TestLevenshteinUtilsMethods(unittest.TestCase):
             input_text,
         )
 
-        self.assertGreater(len(text_distances), 0)
+        assert len(text_distances) > 0
 
 
 if __name__ == '__main__':

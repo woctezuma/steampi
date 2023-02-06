@@ -12,7 +12,7 @@ def compute_all_game_name_distances_with_levenshtein(
 
     lower_case_input = input_game_name.lower()
 
-    text_distances = dict()
+    text_distances = {}
 
     for app_id in steamspy_database:
         text = steamspy_database[app_id]['name']

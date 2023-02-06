@@ -10,7 +10,7 @@ class TestTextDistancesMethods(unittest.TestCase):
         input_text = 'Crash Bandicoot'
         text_distances = steampi.compute_all_game_name_distances(input_text)
 
-        self.assertGreater(len(text_distances), 0)
+        assert len(text_distances) > 0
 
     def test_find_most_similar_game_names_with_levenshtein(self):
         steamspy_database = steamspypi.load()
@@ -24,7 +24,7 @@ class TestTextDistancesMethods(unittest.TestCase):
 
         num_games_to_print = 10
 
-        print('Using the Levenshtein distance for input {}:'.format(input_text))
+        print(f'Using the Levenshtein distance for input {input_text}:')
         for i in range(num_games_to_print):
             app_id = sorted_app_ids[i]
             similar_game = steamspy_database[app_id]
@@ -40,7 +40,7 @@ class TestTextDistancesMethods(unittest.TestCase):
                 ),
             )
 
-        self.assertGreater(len(sorted_app_ids), 0)
+        assert len(sorted_app_ids) > 0
 
     def test_find_most_similar_game_names_with_diff_lib(self):
         steamspy_database = steamspypi.load()
@@ -82,7 +82,7 @@ class TestTextDistancesMethods(unittest.TestCase):
                 ),
             )
 
-        self.assertGreater(len(sorted_app_ids), 0)
+        assert len(sorted_app_ids) > 0
 
 
 if __name__ == '__main__':

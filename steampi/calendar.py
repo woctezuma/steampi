@@ -37,9 +37,6 @@ def get_release_date_as_datetime(app_id):
 def get_release_year(app_id):
     release_date = get_release_date_as_datetime(app_id)
 
-    if release_date is not None:
-        release_year = release_date.year
-    else:
-        release_year = -1
+    release_year = release_date.year if release_date is not None else -1
 
     return release_year

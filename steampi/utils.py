@@ -9,7 +9,7 @@ def build_lower_case_game_name_dictionary(steamspy_database=None):
     if steamspy_database is None:
         steamspy_database = steamspypi.load()
 
-    lower_case_game_name_dictionary = dict()
+    lower_case_game_name_dictionary = {}
 
     for app_id in steamspy_database:
         text = steamspy_database[app_id]['name']

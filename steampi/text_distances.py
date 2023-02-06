@@ -1,5 +1,5 @@
-from .difflib_utils import compute_all_game_name_distances_with_diff_lib
-from .levenshtein_utils import compute_all_game_name_distances_with_levenshtein
+from steampi.difflib_utils import compute_all_game_name_distances_with_diff_lib
+from steampi.levenshtein_utils import compute_all_game_name_distances_with_levenshtein
 
 
 def compute_all_game_name_distances(

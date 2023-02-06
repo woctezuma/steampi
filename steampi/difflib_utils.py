@@ -28,7 +28,7 @@ def compute_all_game_name_distances_with_diff_lib(
         cutoff=cutoff,
     )
 
-    text_distances = dict()
+    text_distances = {}
 
     for lower_case_text, similarity_ratio in close_matches_and_similarity_ratios:
         app_id = lower_case_game_name_dictionary[lower_case_text]
@@ -39,8 +39,8 @@ def compute_all_game_name_distances_with_diff_lib(
         text_distances[app_id] = textual_distance
 
     if verbose:
-        print('\nSimilarity ratios: {}'.format(close_matches_and_similarity_ratios))
-        print('Text distances: {}'.format(text_distances))
+        print(f'\nSimilarity ratios: {close_matches_and_similarity_ratios}')
+        print(f'Text distances: {text_distances}')
 
     return text_distances
 
@@ -87,9 +87,9 @@ def get_close_matches_and_similarity_ratios(
     """
 
     if not n > 0:
-        raise ValueError("n must be > 0: %r" % (n,))
+        raise ValueError(f"n must be > 0: {n!r}")
     if not 0.0 <= cutoff <= 1.0:
-        raise ValueError("cutoff must be in [0.0, 1.0]: %r" % (cutoff,))
+        raise ValueError(f"cutoff must be in [0.0, 1.0]: {cutoff!r}")
     result = []
     if len(junk_str) > 0:
         s = difflib.SequenceMatcher(isjunk=lambda x: x in junk_str)
