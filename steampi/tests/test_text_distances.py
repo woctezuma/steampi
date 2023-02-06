@@ -16,10 +16,11 @@ class TestTextDistancesMethods(unittest.TestCase):
         steamspy_database = steamspypi.load()
 
         input_text = 'Crash Bandicoot'
-        sorted_app_ids, text_distances = steampi.find_most_similar_game_names(input_text,
-                                                                              steamspy_database,
-                                                                              use_levenshtein_distance=True,
-                                                                              )
+        sorted_app_ids, text_distances = steampi.find_most_similar_game_names(
+            input_text,
+            steamspy_database,
+            use_levenshtein_distance=True,
+        )
 
         num_games_to_print = 10
 
@@ -31,9 +32,13 @@ class TestTextDistancesMethods(unittest.TestCase):
 
             similar_game_name = similar_game['name']
 
-            print('{}) distance = {} ; {}'.format(i + 1,
-                                                  textual_distance,
-                                                  similar_game_name))
+            print(
+                '{}) distance = {} ; {}'.format(
+                    i + 1,
+                    textual_distance,
+                    similar_game_name,
+                ),
+            )
 
         self.assertGreater(len(sorted_app_ids), 0)
 
@@ -44,14 +49,20 @@ class TestTextDistancesMethods(unittest.TestCase):
 
         input_text = 'Crash Bandicoot'
         cutoff = 0.5
-        sorted_app_ids, text_distances = steampi.find_most_similar_game_names(input_text,
-                                                                              steamspy_database,
-                                                                              use_levenshtein_distance=False,
-                                                                              n=num_games_to_print,
-                                                                              cutoff=cutoff,
-                                                                              verbose=True)
+        sorted_app_ids, text_distances = steampi.find_most_similar_game_names(
+            input_text,
+            steamspy_database,
+            use_levenshtein_distance=False,
+            n=num_games_to_print,
+            cutoff=cutoff,
+            verbose=True,
+        )
 
-        print('Using the longest contiguous matching subsequence for input {}:'.format(input_text))
+        print(
+            'Using the longest contiguous matching subsequence for input {}:'.format(
+                input_text,
+            ),
+        )
         for i in range(num_games_to_print):
             try:
                 app_id = sorted_app_ids[i]
@@ -63,9 +74,13 @@ class TestTextDistancesMethods(unittest.TestCase):
 
             similar_game_name = similar_game['name']
 
-            print('{}) distance = {} ; {}'.format(i + 1,
-                                                  textual_distance,
-                                                  similar_game_name))
+            print(
+                '{}) distance = {} ; {}'.format(
+                    i + 1,
+                    textual_distance,
+                    similar_game_name,
+                ),
+            )
 
         self.assertGreater(len(sorted_app_ids), 0)
 

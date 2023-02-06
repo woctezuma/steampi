@@ -23,7 +23,6 @@ def get_release_date_as_datetime(app_id):
     if release_date_as_str is not None and release_date_as_str == '':
         release_date = None
     else:
-
         try:
             # Reference: https://stackoverflow.com/a/6557568/
             release_date = datetime.datetime.strptime(release_date_as_str, '%d %b, %Y')

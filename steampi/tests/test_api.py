@@ -6,7 +6,9 @@ import steampi
 class TestApiMethods(unittest.TestCase):
     def test_get_appdetails_url(self):
         app_id = '440'
-        expected_url = 'https://store.steampowered.com/api/appdetails?appids=' + str(app_id)
+        expected_url = 'https://store.steampowered.com/api/appdetails?appids=' + str(
+            app_id,
+        )
         self.assertEqual(steampi.get_appdetails_url(app_id), expected_url)
 
     def test_download_app_details(self):

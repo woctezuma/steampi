@@ -4,28 +4,33 @@ import heapq
 from steampi.utils import build_lower_case_game_name_dictionary
 
 
-def compute_all_game_name_distances_with_diff_lib(input_game_name,
-                                                  steamspy_database=None,
-                                                  n=3,
-                                                  junk_str='',
-                                                  cutoff=0.6,
-                                                  verbose=False,
-                                                  ):
+def compute_all_game_name_distances_with_diff_lib(
+    input_game_name,
+    steamspy_database=None,
+    n=3,
+    junk_str='',
+    cutoff=0.6,
+    verbose=False,
+):
     lower_case_input = input_game_name.lower()
 
-    lower_case_game_name_dictionary = build_lower_case_game_name_dictionary(steamspy_database)
+    lower_case_game_name_dictionary = build_lower_case_game_name_dictionary(
+        steamspy_database,
+    )
 
     lower_case_references = lower_case_game_name_dictionary.keys()
 
-    close_matches_and_similarity_ratios = get_close_matches_and_similarity_ratios(word=lower_case_input,
-                                                                                  possibilities=lower_case_references,
-                                                                                  n=n,
-                                                                                  junk_str=junk_str,
-                                                                                  cutoff=cutoff)
+    close_matches_and_similarity_ratios = get_close_matches_and_similarity_ratios(
+        word=lower_case_input,
+        possibilities=lower_case_references,
+        n=n,
+        junk_str=junk_str,
+        cutoff=cutoff,
+    )
 
     text_distances = dict()
 
-    for (lower_case_text, similarity_ratio) in close_matches_and_similarity_ratios:
+    for lower_case_text, similarity_ratio in close_matches_and_similarity_ratios:
         app_id = lower_case_game_name_dictionary[lower_case_text]
 
         # Reference: https://docs.python.org/3/library/difflib.html#difflib.SequenceMatcher.ratio
@@ -40,7 +45,13 @@ def compute_all_game_name_distances_with_diff_lib(input_game_name,
     return text_distances
 
 
-def get_close_matches_and_similarity_ratios(word, possibilities, n=3, cutoff=0.6, junk_str=''):
+def get_close_matches_and_similarity_ratios(
+    word,
+    possibilities,
+    n=3,
+    cutoff=0.6,
+    junk_str='',
+):
     """Use SequenceMatcher to return list of the best "good enough" matches, along with the similarity ratios.
 
     Code inspired from:
@@ -87,9 +98,11 @@ def get_close_matches_and_similarity_ratios(word, possibilities, n=3, cutoff=0.6
     s.set_seq2(word)
     for x in possibilities:
         s.set_seq1(x)
-        if s.real_quick_ratio() >= cutoff and \
-                s.quick_ratio() >= cutoff and \
-                s.ratio() >= cutoff:
+        if (
+            s.real_quick_ratio() >= cutoff
+            and s.quick_ratio() >= cutoff
+            and s.ratio() >= cutoff
+        ):
             result.append((s.ratio(), x))
 
     # Move the best scorers to head of list

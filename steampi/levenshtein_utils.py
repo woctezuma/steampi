@@ -3,7 +3,10 @@ import Levenshtein as lv
 import steamspypi
 
 
-def compute_all_game_name_distances_with_levenshtein(input_game_name, steamspy_database=None):
+def compute_all_game_name_distances_with_levenshtein(
+    input_game_name,
+    steamspy_database=None,
+):
     if steamspy_database is None:
         steamspy_database = steamspypi.load()
 

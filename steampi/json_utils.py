@@ -15,7 +15,12 @@ def download_json_data(url, verbose=True):
     else:
         data = None
         if verbose:
-            print('Faulty response status code = {} for url = {}'.format(response.status_code, url))
+            print(
+                'Faulty response status code = {} for url = {}'.format(
+                    response.status_code,
+                    url,
+                ),
+            )
 
     return data, response.status_code
 

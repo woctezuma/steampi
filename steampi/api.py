@@ -19,7 +19,12 @@ def download_app_details(app_id):
         try:
             downloaded_app_details = data[app_id]['data']
         except KeyError:
-            print('No data found for appID = {} with status code = {}'.format(app_id, status_code))
+            print(
+                'No data found for appID = {} with status code = {}'.format(
+                    app_id,
+                    status_code,
+                ),
+            )
 
         try:
             success_flag = data[app_id]['success']

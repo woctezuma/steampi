@@ -4,7 +4,6 @@ import steampi
 
 
 class TestJsonUtilsMethods(unittest.TestCase):
-
     def test_get_data_path(self):
         self.assertEqual(steampi.get_data_path(), 'data/')
 
